@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.3.1",
     "@types/react-lazy-load-image-component": "^1.5.2",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",

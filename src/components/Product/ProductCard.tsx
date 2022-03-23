@@ -20,7 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           />
         </div>
 
-        <div className="font-bold">{product.title}</div>
+        <div className="font-bold line-clamp-2">{product.title}</div>
         <div className="text-slate-500 text-sm">
           {formatPrice(product.price)}
         </div>
