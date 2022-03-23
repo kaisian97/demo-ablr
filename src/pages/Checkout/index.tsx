@@ -57,7 +57,7 @@ const Checkout = (props: Props) => {
                         className="w-10 h-10"
                       />
                     </div>
-                    <div className="font-semibold">
+                    <div className="font-semibold text-sm md:text-base">
                       {item.title} ({item.quantity})
                     </div>
                   </div>

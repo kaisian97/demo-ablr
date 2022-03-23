@@ -35,7 +35,7 @@ const Cart = (props: Props) => {
       <h1 className="text-xl tracking-wider font-bold text-center mb-8">
         Cart
       </h1>
-      <div className="mx-10">
+      <div className="md:mx-10">
         <div className="flex-1 md:ml-8">
           <div>
             {cart.map((item, i) => {
@@ -52,10 +52,10 @@ const Cart = (props: Props) => {
                       <Image
                         src={item.image}
                         alt={item.title}
-                        className="w-16 h-16"
+                        className="w-12 h-12 md:w-16 md:h-16"
                       />
                     </div>
-                    <div className="font-semibold">
+                    <div className="font-semibold text-sm md:text-base">
                       {item.title} ({item.quantity})
                     </div>
                   </div>
@@ -72,7 +72,7 @@ const Cart = (props: Props) => {
               );
             })}
           </div>
-          <div className="my-4 flex space-x-4 items-center">
+          <div className="my-4 flex flex-col md:flex-row md:space-x-4 items-end space-y-4 md:items-center">
             <div className="ml-auto font-semibold">
               Total: {formatPrice(totalCartPrice)}
             </div>
