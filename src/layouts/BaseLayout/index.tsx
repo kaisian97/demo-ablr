@@ -6,7 +6,7 @@ type BaseLayoutProps = {};
 
 const BaseLayout = ({ children }: PropsWithChildren<BaseLayoutProps>) => {
   return (
-    <div className="max-w-screen-2xl m-auto flex flex-col h-full">
+    <div className="max-w-screen-2xl m-auto flex flex-col min-h-screen">
       <NavBar />
       <div className="p-8 flex-1">{children}</div>
       <Footer />
