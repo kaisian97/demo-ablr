@@ -10,9 +10,8 @@ import shallow from "zustand/shallow";
 type Props = {};
 
 const Checkout = (props: Props) => {
-  const { updateCart, cart } = useCartStore(
+  const { cart } = useCartStore(
     (state) => ({
-      updateCart: state.updateCart,
       cart: state.cart,
     }),
     shallow
