@@ -6,9 +6,11 @@ export const formatPrice = (price: string | number) => {
   let formattedPrice = typeof price !== "number" ? (price as any) * 1 : price;
   formattedPrice = formattedPrice * rate;
 
-  return formattedPrice.toLocaleString(undefined, {
-    style: "currency",
-    currency,
-    // currencyDisplay: "narrowSymbol",
-  });
+  return formattedPrice
+    .toLocaleString(undefined, {
+      style: "currency",
+      currency,
+      // currencyDisplay: "narrowSymbol",
+    })
+    .replace("$", "SGD ");
 };
