@@ -1,8 +1,7 @@
 import { useStore } from "stores";
 
 export const formatPrice = (price: string | number) => {
-  const { currency, rate = 1 } = useStore.getState().store || {};
-  console.log({ rate });
+  const { currency, rate } = useStore.getState().store || {};
   let formattedPrice = typeof price !== "number" ? (price as any) * 1 : price;
   formattedPrice = formattedPrice * rate;
 
