@@ -6,7 +6,6 @@
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
@@ -49,6 +48,8 @@
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.3.1",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/react-lazy-load-image-component": "^1.5.2",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
