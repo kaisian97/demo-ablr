@@ -3,13 +3,14 @@ import Image from "components/common/Image";
 import RadioGroup from "components/common/RadioGroup";
 import { useMemo } from "react";
 import { checkout } from "services/checkout";
-import { useCartStore } from "stores";
+import { useCartStore, useStore } from "stores";
 import { formatPrice } from "utils";
 import shallow from "zustand/shallow";
 
 type Props = {};
 
 const Checkout = (props: Props) => {
+  useStore();
   const { cart } = useCartStore(
     (state) => ({
       cart: state.cart,
@@ -26,7 +27,10 @@ const Checkout = (props: Props) => {
   }, [cart]);
 
   const handleAblrCheckout = async () => {
-    await checkout({ amount: totalCartPrice.toString(), redirect_url: "" });
+    const data = await checkout({
+      amount: totalCartPrice.toString(),
+    });
+    if (data) window.location.href = data.checkout_url;
   };
 
   return (

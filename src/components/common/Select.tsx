@@ -21,6 +21,7 @@ const Select = <T extends Record<string, any>>({
   };
   return (
     <select
+      aria-label="select"
       className="px-4 py-2 border border-black"
       onChange={handleChange}
       {...restProps}

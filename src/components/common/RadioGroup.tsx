@@ -22,7 +22,7 @@ const RadioGroup = ({ options, label, onChange }: RadioGroupProps) => {
     <HRadioGroup value={plan} onChange={handleOnChange}>
       {label && <HRadioGroup.Label>Plan</HRadioGroup.Label>}
       {options.map((opt) => (
-        <HRadioGroup.Option key={opt.value} value={opt.value}>
+        <HRadioGroup.Option key={opt.value} id={opt.value} value={opt.value}>
           {({ checked }) => (
             <span className={checked ? "bg-blue-200" : ""}>
               {typeof opt.label === "function" ? opt.label(checked) : opt.label}

@@ -1,27 +1,18 @@
 import { useMemo } from "react";
-import { useCartStore } from "stores";
+import { useCartStore, useStore } from "stores";
 import { formatPrice } from "utils";
-import shallow from "zustand/shallow";
-import Image from "components/common/Image";
 import Button from "components/common/Button";
 import { useNavigate } from "react-router-dom";
 import Checkout from "pages/Checkout";
-import { TrashIcon } from "@heroicons/react/solid";
 import Home from "pages/Home";
+import CartItem from "components/Cart/CartItem";
 
 type Props = {};
 
 const Cart = (props: Props) => {
+  useStore();
   const navigate = useNavigate();
-
-  const { deleteCart, cart } = useCartStore(
-    (state) => ({
-      updateCart: state.updateCart,
-      deleteCart: state.deleteCart,
-      cart: state.cart,
-    }),
-    shallow
-  );
+  const cart = useCartStore((state) => state.cart);
 
   const totalCartPrice = useMemo(() => {
     return cart.reduce((total, item) => {
@@ -44,38 +35,15 @@ const Cart = (props: Props) => {
                 {cart.map((item, i) => {
                   const isFirstItem = i === 0;
                   return (
-                    <div
+                    <CartItem
                       key={item.id}
-                      className={`flex justify-between items-center space-x-4 py-2 border-b ${
-                        isFirstItem ? "border-t" : ""
-                      }`}
-                    >
-                      <div className="flex flex-[3] items-center space-x-4">
-                        <div className="flex-shrink-0">
-                          <Image
-                            src={item.image}
-                            alt={item.title}
-                            className="w-12 h-12 md:w-16 md:h-16"
-                          />
-                        </div>
-                        <div className="font-semibold text-sm md:text-base">
-                          {item.title} ({item.quantity})
-                        </div>
-                      </div>
-                      <div className="flex flex-1 space-x-4 items-center">
-                        <TrashIcon
-                          className="w-5 h-5 cursor-pointer hover:text-red-500 transition"
-                          onClick={() => deleteCart(item)}
-                        />
-                        <div className="text-slate-500 text-xs w-[100px]">
-                          {formatPrice(parseFloat(item.price) * item.quantity)}
-                        </div>
-                      </div>
-                    </div>
+                      className={isFirstItem ? "border-t" : ""}
+                      item={item}
+                    />
                   );
                 })}
               </div>
-              <div className="my-4 flex flex-col md:flex-row md:space-x-4 items-end space-y-4 md:items-center">
+              <div className="my-4 flex flex-col md:flex-row md:space-x-4 md:space-y-0 items-end space-y-4 md:items-center">
                 <div className="ml-auto font-semibold">
                   Total: {formatPrice(totalCartPrice)}
                 </div>

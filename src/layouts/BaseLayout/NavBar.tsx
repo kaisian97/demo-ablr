@@ -22,10 +22,17 @@ const NavBar = (props: NavBarProps) => {
     <nav className="flex justify-between items-center sticky top-0 px-4 py-2 bg-white z-10 shadow">
       <MenuIcon className={iconClassName} />
       <Link to={Home.path}>Demo Store</Link>
-      <Link to={Cart.path} className="relative">
-        <ShoppingCartIcon className={iconClassName} />
+      <Link to={Cart.path} title="Cart" className="relative">
+        <ShoppingCartIcon
+          aria-label="cart"
+          role="button"
+          className={iconClassName}
+        />
         {!!totalCartItems && (
-          <span className="text-xs md:text-sm absolute -top-1 md:top-0 p-1 -right-[5px] md:-right-[2px] min-w-[1rem] max-h-[1rem] rounded-full bg-blue-500 text-white flex justify-center items-center">
+          <span
+            title="Total items"
+            className="text-xs md:text-sm absolute -top-1 md:top-0 p-1 -right-[5px] md:-right-[2px] min-w-[1rem] max-h-[1rem] rounded-full bg-blue-500 text-white flex justify-center items-center"
+          >
             {totalCartItems < 9 ? totalCartItems : "9+"}
           </span>
         )}

@@ -4,6 +4,7 @@ import Image from "components/common/Image";
 import { PRODUCTS } from "constant";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { checkout } from "services/checkout";
 import { useCartStore, useStore } from "stores";
 import { Product } from "types";
 import { formatPrice } from "utils";
@@ -32,28 +33,15 @@ const ProductPage = (props: ProductProps) => {
     [cart, product]
   );
 
-  const checkout = async () => {
-    const payload = {
-      store_id: store.value,
-      amount: cartItem
-        ? parseFloat(cartItem.price) * cartItem.quantity
-        : parseFloat(product?.price),
-      redirect_url: "http://localhost:3001/product/2",
-    };
-    const res = await fetch(
-      "https://api.uat.ablr.com/api/v2/public/merchant/checkout/",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${store.secret}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      }
-    );
-    const data = (await res.json()).data;
-    window.location.href = data.checkout_url;
+  const handleCheckout = async () => {
+    const data = await checkout({
+      amount: `${
+        cartItem
+          ? parseFloat(cartItem.price) * cartItem.quantity
+          : parseFloat(product?.price)
+      }`,
+    });
+    if (data) window.location.href = data.checkout_url;
   };
 
   return (
@@ -81,7 +69,7 @@ const ProductPage = (props: ProductProps) => {
           <Button className="mt-4" onClick={() => updateCart(product)}>
             Add to cart {cartItem?.quantity ? `(${cartItem.quantity})` : null}
           </Button>
-          <Button className="mt-4" variant="ghost" onClick={checkout}>
+          <Button className="mt-4" variant="ghost" onClick={handleCheckout}>
             Checkout now
           </Button>
         </div>
