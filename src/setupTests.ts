@@ -6,6 +6,20 @@ import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
 export const textContentMatcher = (text: string) => {
   return function (_content: string, node: Element) {
     const hasText = (n: Element) => n.textContent === text;
@@ -18,7 +32,5 @@ export const textContentMatcher = (text: string) => {
 };
 
 export const renderWithRouter = (ui: any, { route = "/" } = {}) => {
-  window.history.pushState({}, "Test page", route);
-
   return render(ui, { wrapper: BrowserRouter });
 };
