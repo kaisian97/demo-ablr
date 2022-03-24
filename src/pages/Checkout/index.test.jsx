@@ -5,6 +5,13 @@ import { useCartStore } from "stores";
 import { act } from "react-dom/test-utils";
 import { PRODUCTS } from "constant";
 
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
 it("should display all cart items", () => {
   const { result } = renderHook(useCartStore);
   render(<Checkout />);
@@ -22,11 +29,41 @@ it("should display all cart items", () => {
 });
 
 it("should show albr checkout button after select it", () => {
+  const { result } = renderHook(useCartStore);
   render(<Checkout />);
+
+  act(() => {
+    result.current.updateCart(PRODUCTS[0]);
+  });
+
   const span = screen.getByText("Ablr");
   expect(() =>
     screen.getByRole("button", { name: "Continue to Ablr" })
   ).toThrow();
   fireEvent.click(span);
   screen.getByRole("button", { name: "Continue to Ablr" });
+});
+
+it("should show empty cart content", () => {
+  render(<Checkout />);
+
+  expect(() =>
+    screen.getByRole("button", { name: "Continue to Ablr" })
+  ).toThrow();
+  screen.getByText("Back to store");
+});
+
+it("should call checkout api", async () => {
+  const { result } = renderHook(useCartStore);
+  render(<Checkout />);
+
+  act(() => {
+    result.current.updateCart(PRODUCTS[0]);
+  });
+
+  const span = screen.getByText("Ablr");
+  fireEvent.click(span);
+
+  const button = screen.getByRole("button", { name: "Continue to Ablr" });
+  fireEvent.click(button);
 });
