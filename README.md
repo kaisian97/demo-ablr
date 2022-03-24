@@ -14,7 +14,7 @@ It also included other libraries such as tailwind, zustand, immer, headlessui, r
 
 ## Steps to run the application
 
-1. https://github.com/kaisian97/demo-ablr.git
+1. git clone https://github.com/kaisian97/demo-ablr.git
 2. cd demo-ablr
 3. npm start
 
