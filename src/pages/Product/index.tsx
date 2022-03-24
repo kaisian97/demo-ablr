@@ -5,7 +5,7 @@ import { PRODUCTS } from "constant";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { checkout } from "services/checkout";
-import { useCartStore, useStore } from "stores";
+import { useCartStore } from "stores";
 import { Product } from "types";
 import { formatPrice } from "utils";
 import shallow from "zustand/shallow";
@@ -13,7 +13,6 @@ import shallow from "zustand/shallow";
 type ProductProps = {};
 
 const ProductPage = (props: ProductProps) => {
-  const store = useStore((state) => state.store);
   const { cart, updateCart } = useCartStore(
     (state) => ({ cart: state.cart, updateCart: state.updateCart }),
     shallow
