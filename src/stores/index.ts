@@ -38,6 +38,12 @@ export const useCartStore = create(
             cart: newCart,
           };
         }),
+      clearCart: () =>
+        set(() => {
+          return {
+            cart: [],
+          };
+        }),
     })),
     {
       name: "demo-ablr",
