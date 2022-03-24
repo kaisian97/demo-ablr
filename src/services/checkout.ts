@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useStore } from "stores";
 
 export const checkout = async (payload: { amount: string }) => {
@@ -26,6 +27,7 @@ export const checkout = async (payload: { amount: string }) => {
     const resData = await res.json();
     return resData.data;
   } catch (error) {
+    toast.error("Something went wrong! Unable to checkout.");
     return false;
   }
 };

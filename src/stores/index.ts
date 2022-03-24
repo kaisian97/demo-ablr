@@ -3,6 +3,7 @@ import { Product, Store } from "./../types/index";
 import create from "zustand";
 import { combine, persist } from "zustand/middleware";
 import produce from "immer";
+import toast from "react-hot-toast";
 
 export const useStore = create(
   combine({ store: STORES[0] }, (set) => ({
@@ -23,6 +24,7 @@ export const useCartStore = create(
               draft.push({ ...product, quantity: 1 });
             }
           });
+          toast.success(`${product.title} was added to cart.`);
           return {
             cart: newCart,
           };
@@ -30,6 +32,8 @@ export const useCartStore = create(
       deleteCart: (product: Product) =>
         set((state) => {
           const newCart = state.cart.filter((item) => item.id !== product.id);
+          toast.success(`${product.title} was removed from cart.`);
+
           return {
             cart: newCart,
           };
