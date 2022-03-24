@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# Getting Started with Demo Ablr
+
+![check-code-coverage](https://img.shields.io/badge/code--coverage-69.78%25-yellow)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It also included other libraries such as tailwind, zustand, immer, headlessui, react hot toast etc.
+
+## Basic features
+
+1. Products grid view
+2. Product detail view
+3. Cart data is persisted in the local storage
+4. Checkout using Ablr api
+
+## Steps to run the application
+
+1. https://github.com/kaisian97/demo-ablr.git
+2. cd demo-ablr
+3. npm start
 
 ## Available Scripts
 
@@ -18,6 +34,10 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm test:coverage`
+
+Generate test coverage report. The report is generated under coverage folder.
 
 ### `npm run build`
 
