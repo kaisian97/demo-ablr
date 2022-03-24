@@ -4,8 +4,8 @@ import { formatPrice } from "utils";
 import Button from "components/common/Button";
 import { useNavigate } from "react-router-dom";
 import Checkout from "pages/Checkout";
-import Home from "pages/Home";
 import CartItem from "components/Cart/CartItem";
+import EmptyCart from "components/Cart/EmptyCart";
 
 type Props = {};
 
@@ -59,12 +59,7 @@ const Cart = (props: Props) => {
           </div>
         </>
       ) : (
-        <div className="text-center mx-16">
-          <div className="font-medium mb-4">There is no item in cart.</div>
-          <Button className="w-full" onClick={() => navigate(Home.path)}>
-            Back to store
-          </Button>
-        </div>
+        <EmptyCart />
       )}
     </div>
   );

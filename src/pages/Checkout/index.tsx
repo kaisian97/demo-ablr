@@ -1,3 +1,4 @@
+import EmptyCart from "components/Cart/EmptyCart";
 import Button from "components/common/Button";
 import Image from "components/common/Image";
 import RadioGroup from "components/common/RadioGroup";
@@ -33,7 +34,7 @@ const Checkout = (props: Props) => {
     if (data) window.location.href = data.checkout_url;
   };
 
-  return (
+  return !!cart.length ? (
     <div>
       <h1 className="text-xl tracking-wider font-bold text-center mb-8">
         Checkout
@@ -128,6 +129,8 @@ const Checkout = (props: Props) => {
         </div>
       </div>
     </div>
+  ) : (
+    <EmptyCart />
   );
 };
 
