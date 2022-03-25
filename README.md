@@ -1,6 +1,6 @@
 # Getting Started with Demo Ablr
 
-![check-code-coverage](https://img.shields.io/badge/code--coverage-76.79%25-yellow)
+![check-code-coverage](https://img.shields.io/badge/code--coverage-85.08%25-green)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 It also included other libraries such as tailwind, zustand, immer, headlessui, react hot toast etc.
@@ -38,6 +38,10 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### `npm test:coverage`
 
 Generate test coverage report. The report is generated under coverage folder.
+
+### `npm test:coverage-summary`
+
+Generate test coverage summary and update the coverage badge on README.
 
 ### `npm run build`
 
