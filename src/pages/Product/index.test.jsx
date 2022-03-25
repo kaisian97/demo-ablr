@@ -1,11 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import { act } from "react-dom/test-utils";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { useCartStore, useStore } from "stores";
+import { useStore } from "stores";
 import ProductPage from ".";
 import { PRODUCTS, STORES } from "constant";
-import { renderWithRouter, textContentMatcher } from "setupTests";
+import { textContentMatcher } from "setupTests";
 import { formatPrice } from "utils";
 
 const renderComponent = ({ productId }) =>
@@ -46,4 +46,14 @@ test("show product price in MYR correctly", async () => {
   });
 
   await screen.findByText(textContentMatcher(formatPrice(PRODUCTS[0].price)));
+});
+
+test("show added item quantity beside add to cart button", async () => {
+  renderComponent({ productId: PRODUCTS[0].id });
+
+  const addToCartBtn = screen.getByText("Add to cart", { exact: false });
+  fireEvent.click(addToCartBtn);
+  fireEvent.click(addToCartBtn);
+
+  screen.getByText(`Add to cart (2)`);
 });
