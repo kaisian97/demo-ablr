@@ -5,7 +5,7 @@ import { PRODUCTS } from "constant";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { checkout } from "services/checkout";
-import { useCartStore } from "stores";
+import { useCartStore, useStore } from "stores";
 import { Product } from "types";
 import { formatPrice } from "utils";
 import shallow from "zustand/shallow";
@@ -13,6 +13,8 @@ import shallow from "zustand/shallow";
 type ProductProps = {};
 
 const ProductPage = (props: ProductProps) => {
+  useStore();
+
   const { cart, updateCart } = useCartStore(
     (state) => ({ cart: state.cart, updateCart: state.updateCart }),
     shallow
@@ -56,8 +58,8 @@ const ProductPage = (props: ProductProps) => {
       <div className="flex flex-col space-y-2 mt-4 md:flex-1">
         <div className="font-bold text-xl">{product.title}</div>
         <div className="flex">
-          {Array.from({ length: product.stars }).map(() => (
-            <StarIcon className="text-yellow-500 w-6 h-6" />
+          {Array.from({ length: product.stars }).map((_, i) => (
+            <StarIcon key={i} className="text-yellow-500 w-6 h-6" />
           ))}
         </div>
         <div className="text-slate-500 text-sm">
