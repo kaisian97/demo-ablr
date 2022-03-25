@@ -8,6 +8,30 @@ import { PRODUCTS, STORES } from "constant";
 import { textContentMatcher } from "setupTests";
 import { formatPrice } from "utils";
 
+const oldWindowLocation = window.location;
+
+beforeAll(() => {
+  delete window.location;
+
+  window.location = Object.defineProperties(
+    {},
+    {
+      ...Object.getOwnPropertyDescriptors(oldWindowLocation),
+      assign: {
+        configurable: true,
+        value: jest.fn(),
+      },
+    }
+  );
+});
+beforeEach(() => {
+  window.location.assign.mockReset();
+});
+afterAll(() => {
+  // restore `window.location` to the `jsdom` `Location` object
+  window.location = oldWindowLocation;
+});
+
 const renderComponent = ({ productId }) =>
   render(
     <MemoryRouter initialEntries={[`/product/${productId}`]}>
@@ -56,4 +80,10 @@ test("show added item quantity beside add to cart button", async () => {
   fireEvent.click(addToCartBtn);
 
   screen.getByText(`Add to cart (2)`);
+});
+
+test("checkout now", async () => {
+  renderComponent({ productId: PRODUCTS[0].id });
+  const checkoutBtn = screen.getByText("Checkout now");
+  fireEvent.click(checkoutBtn);
 });

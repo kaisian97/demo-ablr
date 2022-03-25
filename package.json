@@ -63,6 +63,7 @@
     "@types/react-lazy-load-image-component": "^1.5.2",
     "autoprefixer": "^10.4.4",
     "check-code-coverage": "^1.10.0",
+    "msw": "^0.39.2",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.23"
   }

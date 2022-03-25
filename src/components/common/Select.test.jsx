@@ -1,4 +1,5 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Select from "./Select";
 
 const setup = () => {
@@ -17,13 +18,20 @@ const setup = () => {
   };
 };
 
+const spy = jest.fn();
+
 const setup2 = () => {
   const options = [
     { animal: "dog", code: 1 },
     { animal: "cat", code: 2 },
   ];
   const utils = render(
-    <Select valueKey="code" labelKey="animal" options={options} />
+    <Select
+      valueKey="code"
+      labelKey="animal"
+      options={options}
+      handleOnChange={spy}
+    />
   );
   const select = screen.getByLabelText("select");
   return {
@@ -50,4 +58,13 @@ it("should able to display dynamic label", () => {
   options.forEach((opt) => {
     screen.getByText(opt.animal);
   });
+});
+
+it("should get correct value from handleOnChange", async () => {
+  setup2();
+  userEvent.selectOptions(
+    screen.getByRole("combobox"),
+    screen.getByRole("option", { name: "cat" })
+  );
+  expect(screen.getByRole("option", { name: "cat" }).selected).toBe(true);
 });
