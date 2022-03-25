@@ -66,7 +66,7 @@ const Checkout = (props: Props) => {
                       {item.title} ({item.quantity})
                     </div>
                   </div>
-                  <div className="text-slate-500 text-sm">
+                  <div className="text-slate-500 text-sm whitespace-nowrap">
                     {formatPrice(parseFloat(item.price) * item.quantity)}
                   </div>
                 </div>

@@ -37,7 +37,7 @@ const CartItem = ({ item, className = "" }: CartItemProps) => {
           className="w-5 h-5 cursor-pointer hover:text-red-500 transition"
           onClick={() => deleteCart(item)}
         />
-        <div className="text-slate-500 text-xs md:text-sm w-[100px]">
+        <div className="text-slate-500 text-xs md:text-sm w-[100px] whitespace-nowrap">
           {formatPrice(parseFloat(item.price) * item.quantity)}
         </div>
       </div>
