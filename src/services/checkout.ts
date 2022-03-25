@@ -6,7 +6,7 @@ export const checkout = async (payload: { amount: string }) => {
 
   const formattedPayload = {
     ...payload,
-    amount: parseFloat(payload.amount).toFixed(2),
+    amount: parseFloat(payload?.amount).toFixed(2),
     store_id: store.value,
     redirect_url: "http://localhost:3000/checkout/success",
   };
