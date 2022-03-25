@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:coverage": "CI=true npm test -- --env=jsdom --coverage",
-    "test:coverage-summary": "CI=true npm test -- --env=jsdom --coverage --coverageReporters=\"json-summary\""
+    "test:coverage-summary": "CI=true npm test -- --env=jsdom --coverage --coverageReporters=\"json-summary\" && npx update-badge"
   },
   "eslintConfig": {
     "extends": [
