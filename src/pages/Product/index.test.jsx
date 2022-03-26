@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import { act } from "react-dom/test-utils";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -8,82 +8,77 @@ import { PRODUCTS, STORES } from "constant";
 import { textContentMatcher } from "setupTests";
 import { formatPrice } from "utils";
 
-const oldWindowLocation = window.location;
+describe("product details page", () => {
+  const currentProduct = PRODUCTS[0];
 
-beforeAll(() => {
-  delete window.location;
-
-  window.location = Object.defineProperties(
-    {},
-    {
-      ...Object.getOwnPropertyDescriptors(oldWindowLocation),
-      assign: {
-        configurable: true,
-        value: jest.fn(),
-      },
-    }
-  );
-});
-beforeEach(() => {
-  window.location.assign.mockReset();
-});
-afterAll(() => {
-  // restore `window.location` to the `jsdom` `Location` object
-  window.location = oldWindowLocation;
-});
-
-const renderComponent = ({ productId }) =>
-  render(
-    <MemoryRouter initialEntries={[`/product/${productId}`]}>
-      <Routes>
-        <Route path="/product/:id" element={<ProductPage />} />
-      </Routes>
-    </MemoryRouter>
-  );
-
-test("show product details correctly", () => {
-  renderComponent({ productId: PRODUCTS[0].id });
-
-  screen.getByText(PRODUCTS[0].title);
-  screen.getByText(PRODUCTS[0].description);
-});
-
-test("show product price in SGD correctly", async () => {
-  renderComponent({ productId: PRODUCTS[0].id });
-
-  const { result } = renderHook(useStore);
-
-  act(() => {
-    result.current.setStore(STORES[1]);
+  beforeEach(() => {
+    const location = window.location;
+    delete global.window.location;
+    global.window.location = Object.assign({}, location);
   });
 
-  await screen.findByText(textContentMatcher(formatPrice(PRODUCTS[0].price)));
-});
+  const renderComponent = ({ productId }) =>
+    render(
+      <MemoryRouter initialEntries={[`/product/${productId}`]}>
+        <Routes>
+          <Route path="/product/:id" element={<ProductPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
 
-test("show product price in MYR correctly", async () => {
-  renderComponent({ productId: PRODUCTS[0].id });
+  test("show product details correctly", () => {
+    renderComponent({ productId: currentProduct.id });
 
-  const { result } = renderHook(useStore);
-
-  act(() => {
-    result.current.setStore(STORES[0]);
+    screen.getByText(currentProduct.title);
+    screen.getByText(currentProduct.description);
   });
 
-  await screen.findByText(textContentMatcher(formatPrice(PRODUCTS[0].price)));
-});
+  test("show product price in SGD correctly", async () => {
+    renderComponent({ productId: currentProduct.id });
 
-test("show added item quantity beside add to cart button", async () => {
-  renderComponent({ productId: PRODUCTS[0].id });
+    const { result } = renderHook(useStore);
 
-  const addToCartBtn = screen.getByText("Add to cart", { exact: false });
-  fireEvent.click(addToCartBtn);
-  fireEvent.click(addToCartBtn);
+    act(() => {
+      result.current.setStore(STORES[1]);
+    });
 
-  screen.getByText(`Add to cart (2)`);
-});
+    await screen.findByText(
+      textContentMatcher(formatPrice(currentProduct.price))
+    );
+  });
 
-test("checkout now", async () => {
-  renderComponent({ productId: PRODUCTS[0].id });
-  const checkoutBtn = screen.getByText("Checkout now");
-  fireEvent.click(checkoutBtn);
+  test("show product price in MYR correctly", async () => {
+    renderComponent({ productId: currentProduct.id });
+
+    const { result } = renderHook(useStore);
+
+    act(() => {
+      result.current.setStore(STORES[0]);
+    });
+
+    await screen.findByText(
+      textContentMatcher(formatPrice(currentProduct.price))
+    );
+  });
+
+  test("show added item quantity beside add to cart button", async () => {
+    const productId = currentProduct.id;
+    renderComponent({ productId });
+
+    const addToCartBtn = screen.getByText("Add to cart", { exact: false });
+    fireEvent.click(addToCartBtn);
+    fireEvent.click(addToCartBtn);
+
+    screen.getByText(`Add to cart (2)`);
+  });
+
+  test("call checkout api and go to checkout url", async () => {
+    renderComponent({ productId: currentProduct.id });
+    const checkoutBtn = screen.getByText("Checkout now");
+    fireEvent.click(checkoutBtn);
+
+    await waitFor(() => {
+      expect(window.location.href).toContain("backend.uat.ablr.com");
+    });
+  });
 });

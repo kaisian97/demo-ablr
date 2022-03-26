@@ -2,69 +2,92 @@ import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Select from "./Select";
 
-const setup = () => {
-  const utils = render(
-    <Select
-      options={[
-        { name: "dog", value: 1 },
-        { name: "cat", value: 2 },
-      ]}
-    />
-  );
-  const select = screen.getByLabelText("select");
-  return {
-    select,
-    ...utils,
-  };
-};
-
 const spy = jest.fn();
 
-const setup2 = () => {
-  const options = [
-    { animal: "dog", code: 1 },
-    { animal: "cat", code: 2 },
-  ];
-  const utils = render(
-    <Select
-      valueKey="code"
-      labelKey="animal"
-      options={options}
-      handleOnChange={spy}
-    />
-  );
+const setup = (props = {}) => {
+  const utils = render(<Select handleOnChange={spy} {...props} />);
   const select = screen.getByLabelText("select");
   return {
     select,
-    options,
+    options: props.options,
     ...utils,
   };
 };
 
 it("show selected value correctly", () => {
-  const { select } = setup();
+  const { select } = setup({
+    options: [
+      { name: "dog", value: 1 },
+      { name: "cat", value: 2 },
+    ],
+  });
   fireEvent.change(select, { target: { value: 2 } });
   expect(select.value).toBe("2");
 });
 
 it("show selected value correctly based on valueKey", () => {
-  const { select } = setup2();
+  const { select } = setup({
+    options: [
+      { animal: "dog", code: 1 },
+      { animal: "cat", code: 2 },
+    ],
+    valueKey: "code",
+    labelKey: "animal",
+  });
   fireEvent.change(select, { target: { value: 2 } });
   expect(select.value).toBe("2");
 });
 
 it("should able to display dynamic label", () => {
-  const { options } = setup2();
+  const { options } = setup({
+    options: [
+      { animal: "dog", code: 1 },
+      { animal: "cat", code: 2 },
+    ],
+    valueKey: "code",
+    labelKey: "animal",
+  });
   options.forEach((opt) => {
     screen.getByText(opt.animal);
   });
 });
 
-it("should get correct value from handleOnChange", async () => {
-  setup2();
+it("should trigger handleOnChange", async () => {
+  setup({
+    options: [
+      { animal: "dog", code: 1 },
+      { animal: "cat", code: 2 },
+    ],
+    valueKey: "code",
+    labelKey: "animal",
+  });
   userEvent.selectOptions(
     screen.getByRole("combobox"),
     screen.getByRole("option", { name: "cat" })
   );
   expect(screen.getByRole("option", { name: "cat" }).selected).toBe(true);
+
+  expect(spy).toBeCalledTimes(1);
+});
+
+it("should not trigger handleOnChange if value not found", async () => {
+  const { select } = setup({
+    options: [
+      { animal: "dog", code: 1 },
+      { animal: "cat", code: 2 },
+    ],
+    valueKey: "code",
+    labelKey: "animal",
+  });
+  fireEvent.change(select, { target: { value: 3 } });
+
+  expect(spy).toBeCalledTimes(0);
+});
+
+it("should able to render with empty option", async () => {
+  const { select } = setup({
+    options: undefined,
+  });
+  fireEvent.change(select, { target: { value: 3 } });
+  screen.getByRole("combobox", { name: "select" });
 });

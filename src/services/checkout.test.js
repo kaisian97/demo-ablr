@@ -7,7 +7,11 @@ const checkoutApiException = rest.post(
   async (req, res, ctx) => res.networkError("Custom network error message")
 );
 
-const handlers = [checkoutApiException];
+const checkoutApi = rest.post("/checkout", async (req, res, ctx) =>
+  res(ctx.json({ checkout_url: "https://backend.uat.ablr.com" }))
+);
+
+const handlers = [checkoutApiException, checkoutApi];
 
 const server = setupServer(...handlers);
 

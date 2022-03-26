@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import Checkout from ".";
 import { useCartStore } from "stores";
@@ -11,6 +11,12 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockedUsedNavigate,
 }));
+
+beforeAll(() => {
+  const location = window.location;
+  delete global.window.location;
+  global.window.location = Object.assign({}, location);
+});
 
 it("should display all cart items", () => {
   const { result } = renderHook(useCartStore);
@@ -53,7 +59,7 @@ it("should show empty cart content", () => {
   screen.getByText("Back to store");
 });
 
-it("should call checkout api", async () => {
+it("should call checkout api and go to other url", async () => {
   const { result } = renderHook(useCartStore);
   render(<Checkout />);
 
@@ -65,5 +71,10 @@ it("should call checkout api", async () => {
   fireEvent.click(span);
 
   const button = screen.getByRole("button", { name: "Continue to Ablr" });
+
   fireEvent.click(button);
+
+  await waitFor(() => {
+    expect(window.location.href).toContain("backend.uat.ablr.com");
+  });
 });
