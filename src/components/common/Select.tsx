@@ -15,7 +15,9 @@ const Select = <T extends Record<string, any>>({
   ...restProps
 }: SelectProps<T>) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedOpt = options.find((opt) => opt[valueKey] === e.target.value);
+    const selectedOpt = options.find(
+      (opt) => opt[valueKey].toString() === e.target.value
+    );
     if (!selectedOpt) return;
     handleOnChange(selectedOpt);
   };
