@@ -1,6 +1,8 @@
 # Getting Started with Demo Ablr
 
-![check-code-coverage](https://img.shields.io/badge/code--coverage-90.05%25-brightgreen)
+[![codecov](https://codecov.io/gh/kaisian97/demo-ablr/branch/main/graph/badge.svg?token=VENGEHZRX4)](https://codecov.io/gh/kaisian97/demo-ablr)
+
+<!-- ![check-code-coverage](https://img.shields.io/badge/code--coverage-100%25-brightgreen) -->
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 It also included other libraries such as tailwind, zustand, immer, headlessui, react hot toast etc.
