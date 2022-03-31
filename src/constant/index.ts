@@ -78,14 +78,14 @@ export const STORES = [
     name: "Malaysia",
     value: "MY-S-3B7VWDJVBTDR",
     currency: "MYR",
-    secret: "ClNI1Q9LujtJUlOqF8taVQyz1OHiewgkxa8cVZLt",
+    secret: process.env.REACT_APP_ABLR_MY_SECRET as string,
     rate: 3.1,
   },
   {
     name: "Singapore",
     value: "SG-S-NPQPBAWN2N6J",
     currency: "SGD",
-    secret: "cEYwXkM6upcfgbC7ZP8vA9ZOMbnAkk3T3pPjMYM5",
+    secret: process.env.REACT_APP_ABLR_SG_SECRET as string,
     rate: 1,
   },
 ];
