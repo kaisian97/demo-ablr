@@ -18,7 +18,8 @@ It also included other libraries such as tailwind, zustand, immer, headlessui, r
 
 1. git clone https://github.com/kaisian97/demo-ablr.git
 2. cd demo-ablr
-3. npm start
+3. npm install
+4. npm start
 
 ## Available Scripts
 
